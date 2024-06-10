@@ -202,6 +202,7 @@ const Header = () => {
               <img className="w-36" src={logo} alt="logo" />
             </Link>
           </div>
+          <hr className="my-4" />
           <div className="flex justify-start mt-5">
             {user ? (
               <Link
@@ -225,6 +226,7 @@ const Header = () => {
               </Link>
             )}
           </div>
+          <hr className="my-4" />
           <ul className="flex flex-col mt-5 justify-start items-start  text-sm font-bold uppercase">
             <li>
               <Link
@@ -271,6 +273,7 @@ const Header = () => {
               </Link>
             </li>
           </ul>
+          <hr className="my-4" />
           <div className="flex justify-start items-start mt-5 gap-4 text-gray-600">
             <a href="http://facebook.com">
               <FaFacebookF />
@@ -282,6 +285,7 @@ const Header = () => {
               <FaInstagram />
             </a>
           </div>
+          <hr className="my-4" />
           <div className="w-full mt-5 flex justify-end md-lg:justify-start gap-3 items-center">
             <div className="w-[30px] h-[30px] rounded-full flex bg-orange-400 justify-center items-center ">
               <span className="text-white">
@@ -294,6 +298,7 @@ const Header = () => {
               </h2>
             </div>
           </div>
+          <hr className="my-4" />
           <ul className="flex flex-col justify-start items-start gap-3 mt-5 text-gray-500">
             <li className="flex justify-start items-center gap-2 text-sm">
               <span>
