@@ -301,7 +301,7 @@ const Header = () => {
           <hr className="my-4" />
           <ul className="flex flex-col justify-start items-start gap-3 mt-5 text-gray-500">
             <li className="flex justify-start items-center gap-2 text-sm">
-              <span>
+              <span className="mt-1">
                 <MdEmail />
               </span>
               <span>support@farmconnect.com</span>
