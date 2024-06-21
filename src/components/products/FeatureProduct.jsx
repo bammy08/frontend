@@ -3,6 +3,7 @@ import { category } from '../../data';
 import { TbCurrencyNaira } from 'react-icons/tb';
 import { FaCartShopping, FaEye, FaRegHeart } from 'react-icons/fa6';
 import Rating from '../Rating';
+import { Link } from 'react-router-dom';
 
 const FeatureProduct = () => {
   return (
@@ -36,9 +37,12 @@ const FeatureProduct = () => {
                 <li className="w-[38px] h-[38px] flex justify-center items-center bg-gray-200 cursor-pointer rounded-full hover:bg-green-500 hover:text-white hover:rotate-[720deg] transition-all">
                   <FaCartShopping />
                 </li>
-                <li className="w-[38px] h-[38px] flex justify-center items-center bg-gray-200 cursor-pointer rounded-full hover:bg-green-500 hover:text-white hover:rotate-[720deg] transition-all">
+                <Link
+                  to="/product-details/3"
+                  className="w-[38px] h-[38px] flex justify-center items-center bg-gray-200 cursor-pointer rounded-full hover:bg-green-500 hover:text-white hover:rotate-[720deg] transition-all"
+                >
                   <FaEye />
-                </li>
+                </Link>
               </ul>
             </div>
             <div className="py-3 text-gray-500 px-2">

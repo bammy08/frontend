@@ -125,6 +125,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      to="/shop"
                       className={`px-2 py-1 rounded block ${
                         pathname === '/shop'
                           ? ' bg-green-600 text-white'
@@ -241,6 +242,7 @@ const Header = () => {
             </li>
             <li>
               <Link
+                to="/shop"
                 className={`px-2 py-1 rounded block ${
                   pathname === '/shop'
                     ? ' bg-green-600 text-white'
