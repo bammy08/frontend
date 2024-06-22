@@ -17,8 +17,10 @@ import logo from '../images/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { category } from '../data';
+import Register from '../pages/Register';
 
 const Header = () => {
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const { pathname } = useLocation();
   const user = false;
   const [sidebar, setSidebar] = useState(true);
@@ -26,6 +28,14 @@ const Header = () => {
   const [searchValue, setSearchValue] = useState('');
   const [categories, setCategories] = useState('');
   const wishlist = 3;
+
+  const handleOpenModal = () => {
+    setShowRegisterModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowRegisterModal(false);
+  };
 
   return (
     <div className="w-full bg-white">
@@ -73,8 +83,8 @@ const Header = () => {
                     </Link>
                   ) : (
                     <Link
-                      className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
                       to="/login"
+                      className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
                     >
                       <span>
                         <FaLock />
@@ -217,8 +227,8 @@ const Header = () => {
               </Link>
             ) : (
               <Link
-                className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
                 to="/login"
+                className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
               >
                 <span>
                   <FaLock />
