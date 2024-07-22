@@ -14,27 +14,27 @@ import {
 import { FaArrowCircleDown, FaListAlt } from 'react-icons/fa';
 import logo from '../images/logo.png';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { category } from '../data';
-import Register from '../pages/Register';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const navigate = useNavigate();
+  const { categories } = useSelector((state) => state.home);
   const { pathname } = useLocation();
   const user = false;
   const [sidebar, setSidebar] = useState(true);
   const [showCat, setShowCat] = useState(true);
   const [searchValue, setSearchValue] = useState('');
-  const [categories, setCategories] = useState('');
+  const [category, setCategory] = useState('');
   const wishlist = 3;
 
-  const handleOpenModal = () => {
-    setShowRegisterModal(true);
+  const handleCategoryClick = () => {
+    setShowCat(false);
   };
 
-  const handleCloseModal = () => {
-    setShowRegisterModal(false);
+  const search = () => {
+    navigate(`/products/search?category=${category}&&value=${searchValue}`);
   };
 
   return (
@@ -347,13 +347,24 @@ const Header = () => {
                 } overflow-hidden transition-all md-lg:relative duration-500 absolute z-50 bg-orange-200 rounded w-full border-x`}
               >
                 <ul className="py-2 text-gray-700 font-medium">
-                  {category.map((c, i) => {
+                  {categories.map((c, i) => {
                     return (
                       <li
                         className="flex justify-start items-center gap-2 px-[24px] py-[6px]"
                         key={i}
+                        onClick={handleCategoryClick}
                       >
-                        <Link className="text-sm block">{c.name}</Link>
+                        <img
+                          className="w-[30px] h-[30px] rounded-full overflow-hidden"
+                          src={c.image}
+                          alt={c.name}
+                        />
+                        <Link
+                          to={`/products?category=${c.name}`}
+                          className="text-sm block"
+                        >
+                          {c.name}
+                        </Link>
                       </li>
                     );
                   })}
@@ -371,12 +382,12 @@ const Header = () => {
                       className="w-[150px] text-gray-600 font-semibold bg-transparent px-1 h-full outline-0 border-none "
                       name=""
                       id=""
-                      onChange={(e) => setCategories(e.target.value)}
+                      onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="">Select Category</option>
-                      {category.map((c, i) => (
-                        <option value={c}>
-                          <Link className="text-sm block">{c.name}</Link>
+                      {categories.map((c, i) => (
+                        <option key={i} value={c.name}>
+                          {c.name}
                         </option>
                       ))}
                     </select>
@@ -389,7 +400,10 @@ const Header = () => {
                     id=""
                     placeholder="what do you want?"
                   />
-                  <button className="bg-orange-400 rounded right-0 absolute px-8 h-full font-semibold uppercase text-white">
+                  <button
+                    onClick={search}
+                    className="bg-orange-400 rounded right-0 absolute px-8 h-full font-semibold uppercase text-white"
+                  >
                     Search
                   </button>
                 </div>

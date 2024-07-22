@@ -2,9 +2,12 @@ import React from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Link } from 'react-router-dom';
-import { category } from '../../data';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
-const Products = ({ title }) => {
+import { TbCurrencyNaira } from 'react-icons/tb';
+const Products = ({ title, products }) => {
+  const formatPrice = (price) => {
+    return price.toLocaleString('en-NG'); // Formats the price as '1,200'
+  };
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -46,18 +49,6 @@ const Products = ({ title }) => {
     );
   };
 
-  // Function to chunk array into smaller arrays of a specific size
-  const chunkArray = (array, size) => {
-    const chunkedArr = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunkedArr.push(array.slice(i, i + size));
-    }
-    return chunkedArr;
-  };
-
-  // Chunk categories into groups of three
-  const categoryChunks = chunkArray(category, 3);
-
   return (
     <div className="flex gap-8 flex-col-reverse">
       <Carousel
@@ -70,25 +61,37 @@ const Products = ({ title }) => {
         customButtonGroup={<ButtonGroup />}
         renderButtonGroupOutside={true}
       >
-        {categoryChunks.map((chunk, i) => (
-          <div key={i} className="flex flex-col justify-start gap-2">
-            {chunk.map((p, j) => (
-              <Link key={j} className="block" to="#">
-                <div className="flex items-center gap-1">
+        {products.map((p, i) => {
+          return (
+            <div key={i} className="flex flex-col justify-start gap-2">
+              {p.map((pl, j) => (
+                <Link key={j} className="flex justify-start items-start" to="#">
                   <img
-                    className="w-32 h-32 object-cover"
-                    src={p.img} // Updated to use direct image path from the category data
-                    alt={p.name}
+                    className="w-[110px] h-[110px]"
+                    src={pl.images[0]}
+                    alt="images"
                   />
-                  <div className="text-left">
-                    <div className="text-lg font-semibold">{p.name}</div>
-                    <div className="text-gray-500">Price: ${p.price}</div>
+                  <div className="px-3 flex justify-start items-start gap-1 flex-col text-slate-600">
+                    <h2>{pl.name}</h2>
+                    {pl.prices && pl.prices.length > 0
+                      ? pl.prices.map((priceObj, idx) => (
+                          <div key={idx} className="flex items-center gap-2">
+                            <span className="font-semibold">
+                              {priceObj.range}:
+                            </span>
+                            <span className="flex items-center text-md font-semibold">
+                              <TbCurrencyNaira className="mt-[1.5px]" />
+                              {formatPrice(priceObj.price)}
+                            </span>
+                          </div>
+                        ))
+                      : 'Price not available'}
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ))}
+                </Link>
+              ))}
+            </div>
+          );
+        })}
       </Carousel>
     </div>
   );

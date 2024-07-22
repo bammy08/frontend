@@ -194,6 +194,7 @@ const ProductDetails = () => {
                   </div>
                 </div>
               </div>
+
               <div className="flex py-5 gap-5">
                 <div className="w-[150px] text-gray-700 font-bold text-xl flex flex-col gap-5">
                   <span>Availability</span>
@@ -230,6 +231,10 @@ const ProductDetails = () => {
                     </li>
                   </ul>
                 </div>
+              </div>
+              <div className="flex justify-start items-center gap-2">
+                <span>Location :</span>
+                <span>Rivers </span>
               </div>
               <div className="flex gap-3 pb-10">
                 {stock ? (

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { FaChevronRight } from 'react-icons/fa6';
 
 import { Range } from 'react-range';
@@ -15,7 +15,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { price_range, query_products } from '../store/reducers/homeReducer';
 import { location } from '../data';
 
-const Shop = () => {
+const SearchProduct = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get('category');
+  const searchValue = searchParams.get('value');
+
   const dispatch = useDispatch();
   const {
     categories,
@@ -35,7 +39,6 @@ const Shop = () => {
   const [styles, setStyles] = useState('grid');
   const [pageNumber, setPageNumber] = useState(1);
 
-  const [category, setCategory] = useState('');
   const [sortPrice, setSortPrice] = useState('');
 
   useEffect(() => {
@@ -59,26 +62,18 @@ const Shop = () => {
     setSelectedLGA(e.target.value);
   };
 
-  // to filter the category
-  const queryCategory = (e, value) => {
-    if (e.target.checked) {
-      setCategory(value);
-    } else {
-      setCategory('');
-    }
-  };
-
   useEffect(() => {
     dispatch(
       query_products({
-        low: state.values[0],
-        high: state.values[1],
+        low: state.values[0] || '',
+        high: state.values[1] || '',
         category,
         state: selectedState,
         LGA: selectedLGA,
         rating,
         sortPrice,
         pageNumber,
+        searchValue,
       })
     );
   }, [
@@ -91,6 +86,7 @@ const Shop = () => {
     pageNumber,
     state.values[0],
     state.values[1],
+    searchValue,
   ]);
 
   const resetRating = () => {
@@ -121,13 +117,13 @@ const Shop = () => {
         <div className="absolute left-0 top-0 w-full h-full bg-[#2422228a]">
           <div className="w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto">
             <div className="flex flex-col justify-center gap-1 items-center h-full w-full text-white">
-              <h2 className="text-3xl font-semibold">Shop page</h2>
+              <h2 className="text-3xl font-semibold">Category Page</h2>
               <div className="flex justify-center items-center gap-2 text-2xl w-full">
                 <Link to="/">Home</Link>
                 <span className="pt-2">
                   <FaChevronRight />
                 </span>
-                <span className="">Shop</span>
+                <span className="">Category</span>
               </div>
             </div>
           </div>
@@ -153,32 +149,7 @@ const Shop = () => {
               }`}
             >
               <div className="bg-white p-2 shadow-md rounded-md w-[280px]">
-                <h2 className="text-2xl font-semibold text-gray-500">
-                  Category
-                </h2>
-                <div className="py-2 border-t mt-2">
-                  {categories.map((c, i) => (
-                    <div
-                      key={i}
-                      className="flex justify-start items-center gap-2 py-1"
-                    >
-                      <input
-                        checked={category === c.name ? true : false}
-                        onChange={(e) => queryCategory(e, c.name)}
-                        type="checkbox"
-                        id={c.name}
-                      />
-                      <label
-                        className="text-gray-500 block cursor-pointer"
-                        htmlFor={c.name}
-                      >
-                        {c.name}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="py-2 flex flex-col gap-5 border-t mt-2">
+                <div className="py-2 flex flex-col gap-5">
                   <h2 className="text-2xl font-semibold text-gray-500">
                     Price
                   </h2>
@@ -440,4 +411,4 @@ const Shop = () => {
   );
 };
 
-export default Shop;
+export default SearchProduct;

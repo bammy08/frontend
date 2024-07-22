@@ -1,10 +1,16 @@
 import React from 'react';
-import { category } from '../../data';
+
 import { FaCartShopping, FaEye, FaRegHeart } from 'react-icons/fa6';
 import { TbCurrencyNaira } from 'react-icons/tb';
 import Rating from '../Rating';
 
-const ShopProduct = ({ styles }) => {
+const formatPrice = (price) => {
+  return price.toLocaleString('en-NG'); // Formats the price as '1,200'
+};
+
+const ShopProduct = ({ styles, products }) => {
+  console.log('Products:', products); // Debugging log
+
   return (
     <div
       className={`w-full grid ${
@@ -13,7 +19,7 @@ const ShopProduct = ({ styles }) => {
           : 'grid-cols-1 md-lg:grid-cols-2 md:grid-cols-2'
       } gap-3`}
     >
-      {category.map((p, i) => (
+      {products.map((p, i) => (
         <div
           key={i}
           className={`flex transition-all duration-1000 hover:shadow-md hover:-translate-y-3 ${
@@ -30,9 +36,8 @@ const ShopProduct = ({ styles }) => {
             }
           >
             <img
-              className=""
-              // style={{ width: '100%', height: '185px' }}
-              src={p.img}
+              className="h-[240px] rounded-md md:h-[270px] xs:h-[170px] w-full object-cover"
+              src={p.images[0]}
               alt={`${p.name}`}
             />
             <ul className="flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3">
@@ -51,15 +56,25 @@ const ShopProduct = ({ styles }) => {
             <h2 className="font-bold">{p.name} </h2>
             <div className="flex justify-start items-center gap-3">
               <span className="flex text-md font-semibold justify-center items-center gap-0">
-                <span className="mt-[1.5px]">
-                  <TbCurrencyNaira />
+                <span>
+                  {p.prices && p.prices.length > 0
+                    ? p.prices.map((priceObj, idx) => (
+                        <div key={idx} className="flex items-center gap-2">
+                          <span className="font-semibold">
+                            {priceObj.range}:
+                          </span>
+                          <span className="flex items-center text-md font-semibold">
+                            <TbCurrencyNaira className="mt-[1.5px]" />
+                            {formatPrice(priceObj.price)}
+                          </span>
+                        </div>
+                      ))
+                    : 'Price not available'}
                 </span>
-
-                <span>{p.price ? p.price.toLocaleString() : 'N/A'}</span>
               </span>
-              <div className="flex">
-                <Rating ratings={4.5} />
-              </div>
+            </div>
+            <div className="flex mt-1">
+              <Rating ratings={p.rating} />
             </div>
           </div>
         </div>
