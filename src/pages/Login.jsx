@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { PulseLoader } from 'react-spinners';
-// import { overrideStyles } from '../../../utils/utils';
-// import {
-//   messageClear,
-//   seller_register,
-// } from '../../store/Reducers/authReducer';
-// import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { FadeLoader } from 'react-spinners';
+
+import toast from 'react-hot-toast';
+import { customer_login, messageClear } from '../store/reducers/authReducer';
 
 const Login = () => {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const { loader, successMessage, errorMessage } = useSelector(
-  //   (state) => state.auth
-  // );
+  const navigate = useNavigate();
+  const { loader, errorMessage, successMessage, userInfo } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -41,44 +38,51 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Perform validation
-  //   const newErrors = {};
-  //   if (!formData.username) {
-  //     newErrors.username = 'Please enter a username';
-  //   }
-  //   if (!formData.email) {
-  //     newErrors.email = 'Please enter an email';
-  //   }
-  //   if (!formData.password) {
-  //     newErrors.password = 'Please enter a password';
-  //   }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Perform validation
+    const newErrors = {};
+    if (!formData.username) {
+      newErrors.username = 'Please enter a username';
+    }
+    if (!formData.email) {
+      newErrors.email = 'Please enter an email';
+    }
+    if (!formData.password) {
+      newErrors.password = 'Please enter a password';
+    }
 
-  //   // If there are errors, set the error state and return
-  //   if (Object.keys(newErrors).length > 0) {
-  //     setErrors(newErrors);
-  //     return;
-  //   }
-  //   dispatch(seller_register(formData));
+    // If there are errors, set the error state and return
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    dispatch(customer_login(formData));
 
-  //   // If no errors, proceed with form submission
-  //   // Your form submission logic here
-  // };
-  // useEffect(() => {
-  //   if (errorMessage) {
-  //     toast.error(errorMessage);
-  //     dispatch(messageClear());
-  //   }
-  //   if (successMessage) {
-  //     toast.success(successMessage);
-  //     dispatch(messageClear());
-  //     navigate('/');
-  //   }
-  // }, [successMessage, errorMessage]);
+    // If no errors, proceed with form submission
+    // Your form submission logic here
+  };
+  useEffect(() => {
+    if (successMessage) {
+      toast.success(successMessage);
+      dispatch(messageClear());
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+      dispatch(messageClear());
+    }
+    if (userInfo) {
+      navigate('/');
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <div className="min-w-screen min-h-screen bg-[#afe1af] flex justify-center items-center">
+      {loader && (
+        <div className="w-screen h-screen flex justify-center items-center fixed left-0 top-0 bg-[#38303033] z-[999]">
+          <FadeLoader />
+        </div>
+      )}
       <div className="w-[350px] text-white p-2">
         <div className="bg-[#50c878] p-4 rounded-md">
           <h2 className="text-xl mb-3 font-bold text-center">
@@ -86,7 +90,7 @@ const Login = () => {
           </h2>
           <hr className="mb-5" />
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="email" className="block mb-1">
                 Email

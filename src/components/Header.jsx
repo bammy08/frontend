@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 
 const Header = () => {
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
   const { categories } = useSelector((state) => state.home);
   const { pathname } = useLocation();
   const user = false;
@@ -71,25 +72,25 @@ const Header = () => {
                   </a>
                 </div>
                 <div className="flex group cursor-pointer relative justify-center items-center gap-1 text-sm after:absolute after:h-[18px] after:w-[1px] after:bg-green-700 after:-right-[16px] before:absolute before:h-[18px] before:bg-green-700 before:w-[1px] before:-left-[20px]">
-                  {user ? (
+                  {userInfo ? (
                     <Link
-                      className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
+                      className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black"
                       to="/dashboard"
                     >
                       <span>
                         <FaUser />
                       </span>
-                      <span className="font-semibold">Bamidele</span>
+                      <span> {userInfo.username} </span>
                     </Link>
                   ) : (
                     <Link
                       to="/login"
-                      className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
+                      className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black"
                     >
                       <span>
                         <FaLock />
                       </span>
-                      <span className="font-semibold">Login</span>
+                      <span>Login </span>
                     </Link>
                   )}
                 </div>
@@ -215,25 +216,25 @@ const Header = () => {
           </div>
           <hr className="my-4" />
           <div className="flex justify-start mt-5">
-            {user ? (
+            {userInfo ? (
               <Link
-                className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
+                className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black"
                 to="/dashboard"
               >
                 <span>
                   <FaUser />
                 </span>
-                <span className="font-semibold">Bamidele</span>
+                <span> {userInfo.username} </span>
               </Link>
             ) : (
               <Link
                 to="/login"
-                className="flex cursor-pointer justify-center items-center gap-2 text-sm text-gray-700"
+                className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black"
               >
                 <span>
                   <FaLock />
                 </span>
-                <span className="font-semibold">Login</span>
+                <span>Login </span>
               </Link>
             )}
           </div>
